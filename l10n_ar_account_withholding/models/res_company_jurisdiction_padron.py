@@ -40,9 +40,11 @@ class ResCompanyJurisdictionPadron(models.Model):
 
     @api.constrains('jurisdiction_id')
     def check_jurisdiction_id(self):
-        arba_tag = self.env.ref('l10n_ar_ux.tag_tax_jurisdiccion_902')
+        # arba_tag = self.env.ref('l10n_ar_ux.tag_tax_jurisdiccion_902')
+        cdba_tag = self.env.ref('l10n_ar_ux.tag_tax_jurisdiccion_904')
+
         for rec in self:
-            if rec.jurisdiction_id != arba_tag:
+            if rec.jurisdiction_id != cdba_tag:
                 raise ValidationError("El padron para (%s) no está implementado." % rec.jurisdiction_id.name)
 
     @api.depends('company_id', 'jurisdiction_id')
@@ -57,7 +59,8 @@ class ResCompanyJurisdictionPadron(models.Model):
     def descompress_file(self, file_padron):
         _logger.log(25, "Descompress zip file")
         ruta_extraccion = "/tmp"
-        file = base64.decodestring(file_padron)
+        # file = base64.decodestring(file_padron) decodestrig deprecated since Python 3.9
+        file = base64.decodebytes(file_padron)
         fobj = tempfile.NamedTemporaryFile(delete=False)
         fname = fobj.name
         fobj.write(file)
