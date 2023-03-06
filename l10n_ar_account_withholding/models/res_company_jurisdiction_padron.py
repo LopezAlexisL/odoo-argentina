@@ -60,6 +60,7 @@ class ResCompanyJurisdictionPadron(models.Model):
         _logger.log(25, "Descompress zip file")
         ruta_extraccion = "/tmp"
         # file = base64.decodestring(file_padron) decodestrig deprecated since Python 3.9
+        # empty comment
         file = base64.decodebytes(file_padron)
         fobj = tempfile.NamedTemporaryFile(delete=False)
         fname = fobj.name
